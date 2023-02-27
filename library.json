@@ -1,0 +1,23 @@
+{
+  "name": "SmoothProgressDirect",
+  "version": "0.1.0",
+  "description": "Alternative API for the SmoothProgress library",
+  "keywords": "",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/nuxeh/SmoothScrollerDirect"
+  },
+  "authors":
+  [
+    {
+      "name": "Ed Cragg",
+      "email": "drq.11235@gmail.com"
+    }
+  ],
+  "license": "ISC",
+  "dependencies": {
+  },
+  "frameworks": "*",
+  "platforms": "*"
+}
