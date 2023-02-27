@@ -16,8 +16,7 @@
     }
   ],
   "license": "ISC",
-  "dependencies": {
-  },
+  "dependencies": {},
   "frameworks": "*",
   "platforms": "*"
 }

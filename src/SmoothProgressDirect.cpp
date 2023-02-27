@@ -1,5 +1,6 @@
-#include <Print.h>
+#include "SmoothProgressDirect.h"
+#include "barstyle.h"
 
-class SmoothProgressDirect {
+SmoothProgressDirect::SmoothProgressDirect() {
 
 }

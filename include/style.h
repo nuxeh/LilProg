@@ -7,4 +7,6 @@
 #define MNEG 4
 #define MPOS 5
 
+typedef uint8_t style[6][5];
+
 #endif
