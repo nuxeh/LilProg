@@ -8,10 +8,10 @@ BEGIN {
 {
   for (i=1; i<=NF; i++) {
     if (count > 0) {
-      print $i
+      if ($i == "0") print "."
+      else if ($i == "1") print "#"
     }
     if ($i == "b" && last == "0") {
-      print "0b"
       count = 5
     } else if (count > 0) {
       count--
