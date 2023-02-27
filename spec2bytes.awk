@@ -2,13 +2,8 @@ BEGIN {
   FS = ""
   ORS = ""
   count = 0
-  o[0] = "leftPos"
-  o[1] = "leftNeg"
-  o[2] = "rightPos"
-  o[3] = "rightNeg"
-  o[4] = "midPos"
-  o[5] = "midNeg"
   curr = 0
+  print 
 }
 
 {
@@ -24,13 +19,14 @@ BEGIN {
 }
 
 function printByte() {
-  print o[curr], "= {\n"
+  print "{\n"
   for (i=1; i<=5; i++) {
     print "  0b"
     for (j=0; j<=8; j++) {
       print b[i][j] 
     }
-    if (i == 5) print "\n};\n"
+    if (curr == 5 && i == 5) print "\n};\n"
+    else if (i == 5) print "\n},\n"
     else print ",\n"
   }
   curr++
