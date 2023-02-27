@@ -9,7 +9,6 @@ BEGIN {
   for (i=1; i<=NF; i++) {
     if (count > 0) {
       print $i
-      count--
     }
     if ($i == "b" && last == "0") {
       print "0b"
