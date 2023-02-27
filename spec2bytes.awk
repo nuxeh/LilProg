@@ -3,7 +3,7 @@ BEGIN {
   ORS = ""
   count = 0
   curr = 0
-  print 
+  print "const uint8_t PROGMEM style[8][5] = {\n" 
 }
 
 {
@@ -19,19 +19,19 @@ BEGIN {
 }
 
 function printByte() {
-  print "{\n"
+  print "  {\n"
   for (i=1; i<=5; i++) {
-    print "  0b"
+    print "    0b"
     for (j=0; j<=8; j++) {
       print b[i][j] 
     }
-    if (curr == 5 && i == 5) print "\n};\n"
-    else if (i == 5) print "\n},\n"
+    if (curr == 5 && i == 5) print "\n  }\n"
+    else if (i == 5) print "\n  },\n"
     else print ",\n"
   }
   curr++
 }
 
 END {
-
+  print "};"
 }
