@@ -1,7 +1,7 @@
 BEGIN {
   FS = ""
-  zero = false
-  bee = false
+  ORS = ""
+  last = ""
   count = 0
 }
 
@@ -11,17 +11,15 @@ BEGIN {
       print $i
       count--
     }
-    if ($i == "0") zero = true
-    else if (zero == true && $i == "b") {
-      bee = true
+    if ($i == "b" && last == "0") {
+      print "0b"
       count = 5
-    } 
-    else {
-      zero = false
-      bee = false
-      count = 0
+    } else if (count > 0) {
+      count--
     }
+    last = $i
   }
+  print "\n"
 }
 
 END {
