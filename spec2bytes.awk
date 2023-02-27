@@ -3,7 +3,9 @@ BEGIN {
   ORS = ""
   count = 0
   curr = 0
-  print "const uint8_t PROGMEM style[8][5] = {\n" 
+  if (styleName == "") styleName = "style"
+  print "#ifndef __STYLE_" toupper(styleName) "_H__\n\n"
+  print "const uint8_t PROGMEM", tolower(styleName), "[8][5] = {\n" 
 }
 
 {
@@ -33,5 +35,6 @@ function printByte() {
 }
 
 END {
-  print "};"
+  print "};\n"
+  print "\n#endif"
 }
