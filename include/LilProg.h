@@ -6,7 +6,7 @@
 
 template <class T>
 class LilProg {
-  LilProg(T& l, style& s) : lcd(l), st(s) {}
+  LilProg(T& l, const style& s) : lcd(l), st(s) {}
   void draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc);
   style& st;
   T& lcd;
