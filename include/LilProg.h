@@ -20,6 +20,23 @@ private:
   uint8_t pX, pY, width;
 };
 
+/*
+  0b00000000,
+  0b00000000,
+  0b00011000,
+  0b00111100,
+  0b00111100
+
+  0b00000,
+  0b00000,
+  0b00011,
+  0b00111,
+  0b00111,
+  0b00011,
+  0b00000,
+  0b00000
+ */
+
 template <class T>
 void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint8_t addr) {
   uint8_t b;
@@ -37,7 +54,8 @@ void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint
     b |= *p[i];
     Serial.println(b, BIN);
     for (uint8_t j=0; j<8; j++) {
-      c[j] |= (b & (1 << j)); // transpose
+      c[j] |= ((b & 1) << (4 - i)); // transpose
+      b >>= 1;
     }
   }
 
