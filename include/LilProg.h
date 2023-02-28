@@ -107,6 +107,7 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   }
 
   lcd.setCursor(x, y);
+  lcd.print("##");
 
   for (uint8_t i=0; i<w; i++) {
     if (i <= filledBlocks) {
