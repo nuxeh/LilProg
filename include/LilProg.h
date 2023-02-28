@@ -13,7 +13,7 @@ public:
 
 private:
   void buildCharacter(const mask *, const mask *, uint8_t, uint8_t);
-  void printChar(uint8_t, uint8_t, uint8_t);
+  void printChar(uint8_t, uint8_t);
 
   T& lcd;
   const style& st;
