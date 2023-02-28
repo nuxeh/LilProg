@@ -1,5 +1,6 @@
 #include <Arduino.h>
-#include <LiquidSerial_I2C>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 #include <LilProg.h>
 #include <styleRounded.h>
 
@@ -8,6 +9,7 @@ LilProg progress(lcd, rounded);
 
 void setup() {
   Serial.begin(115200);
+  Wire.begin();
   lcd.begin();
 }
 
