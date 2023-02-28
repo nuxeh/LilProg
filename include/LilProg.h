@@ -45,18 +45,12 @@ void LilProg<T>::printChar(uint8_t w, uint8_t n, uint8_t fill) {
   if (n == 0) {
     buildCharacter(&st.maskLN, &st.maskLP, fill, 0);
     lcd.print("\10");
-    lcd.setCursor(n, 1);
-    lcd.print("<");
   } else if (n == w) {
     buildCharacter(&st.maskRN, &st.maskRP, fill, 0);
     lcd.print("\10");
-    lcd.setCursor(n, 1);
-    lcd.print(">");
   } else {
     buildCharacter(&st.maskMN, &st.maskMP, fill, 0);
     lcd.print("\10");
-    lcd.setCursor(n, 1);
-    lcd.print("=");
   }
 }
 
@@ -101,9 +95,8 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
     filledBlocks -= 1;
   }
 
-  lcd.setCursor(x, y);
-
   for (uint8_t i=0; i<w; i++) {
+    lcd.setCursor(x + i, y);
     if (i <= filledBlocks) {
       printChar(w, i, 4);
     } else if (i == filledBlocks + 1 && haveTransitionBlock) {
