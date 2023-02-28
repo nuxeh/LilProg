@@ -9,11 +9,11 @@ template <class T>
 class LilProg {
 public:
   LilProg(T& l, const style& s) : lcd(l), st(s) {}
-  void draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc);
+  void draw(uint8_t, uint8_t, uint8_t, uint8_t);
 
 private:
-  void buildCharacter(mask *p, mask *n, uint8_t fill, uint8_t addr);
-  void printChar(uint8_t w, uint8_t n, uint8_t fill);
+  void buildCharacter(mask *, mask *, uint8_t, uint8_t);
+  void printChar(uint8_t, uint8_t, uint8_t);
 
   T& lcd;
   const style& st;
@@ -43,13 +43,13 @@ void LilProg<T>::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_t addr) {
 template <class T>
 void LilProg<T>::printChar(uint8_t w, uint8_t n, uint8_t fill) {
   if (n == 0) {
-    buildCharacter(st.maskLN, st.maskLP, fill, 0);
+    buildCharacter(&st.maskLN, &st.maskLP, fill, 0);
     lcd.print("\10");
   } else if (n == w) {
-    buildCharacter(st.maskRN, st.maskRP, fill, 0);
+    buildCharacter(&st.maskRN, &st.maskRP, fill, 0);
     lcd.print("\10");
   } else {
-    buildCharacter(st.maskMN, st.maskMP, fill, 0);
+    buildCharacter(&st.maskMN, &st.maskMP, fill, 0);
     lcd.print("\10");
   }
 }
