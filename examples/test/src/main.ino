@@ -11,6 +11,8 @@ void setup() {
   Serial.begin(115200);
   Wire.begin();
   lcd.begin();
+  lcd.setCursor(0, 0);
+  lcd.print("Initialised");
 }
 
 uint8_t pc = 0;
@@ -18,7 +20,7 @@ uint8_t pc = 0;
 void loop() {
   uint32_t t1 = micros();
   prog.draw(0, 0, 16, pc);
-  Serial.print(micros() - t1);
+  Serial.println(micros() - t1);
   pc = (pc + 1) % 100;
   delay(100);
 }
