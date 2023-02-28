@@ -2,13 +2,25 @@
 
 #include <Arduino.h>
 
-#define LNEG 0
-#define LPOS 1
-#define RNEG 2
-#define RPOS 3
-#define MNEG 4
-#define MPOS 5
+#ifdef PROGRESS_DATA_IN_PROGMEM
+#define PROG_DECORATOR PROGMEM
+#else
+#define PROG_DECORATOR
+#endif
 
-typedef uint8_t style[6][5];
+typedef uint8_t mask[5];
+
+struct style {
+  uint8_t maskLN[5];
+  uint8_t maskLP[5];
+  uint8_t maskRN[5];
+  uint8_t maskRP[5];
+  uint8_t maskMN[5];
+  uint8_t maskMP[5];
+  uint8_t offsetL = 0;
+  uint8_t offsetR = 0;
+};
+
+typedef struct style style;
 
 #endif
