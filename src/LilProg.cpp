@@ -1,6 +1,7 @@
 #include "LilProg.h"
 
-void LilProg::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_t addr) {
+template <class T>
+void LilProg<T>::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_t addr) {
   uint8_t b;
   uint8_t c[8] = {0};
 
@@ -20,7 +21,8 @@ void LilProg::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_t addr) {
   LCD.createChar(addr, c);
 }
 
-void LilProg::printChar(uint8_t w, uint8_t n, uint8_t fill) {
+template <class T>
+void LilProg<T>::printChar(uint8_t w, uint8_t n, uint8_t fill) {
   if (n == 0) {
     buildCharacter(st.maskLN, st.maskLP, fill, 0);
     LCD.print("\10");
@@ -50,8 +52,8 @@ void LilProg::printChar(uint8_t w, uint8_t n, uint8_t fill) {
  *   <----------------Wpx----------------> 
  *   <----wFilled----><------wEmpty------>
  */
-
-void LilProg::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
+template <class T>
+void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   if (w > 42) {
     w = 42;
   }
