@@ -105,11 +105,11 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
 
   for (uint8_t i=0; i<w; i++) {
     if (i <= filledBlocks) {
-      printChar(w, i, 4);
+      printChar(i, 4);
     } else if (i == filledBlocks + 1 && haveTransitionBlock) {
-      printChar(w, i, transitionBlockFill);
+      printChar(i, transitionBlockFill);
     } else {
-      printChar(w, i, 0);
+      printChar(i, 0);
     }
   }
 }
