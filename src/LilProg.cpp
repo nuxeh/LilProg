@@ -33,7 +33,6 @@ void LilProg<T>::printChar(uint8_t w, uint8_t n, uint8_t fill) {
     buildCharacter(st.maskMN, st.maskMP, fill, 0);
     lcd.print("\10");
   }
-
 }
 
 /*
