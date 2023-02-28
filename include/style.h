@@ -19,6 +19,6 @@ typedef struct {
   mask maskMP[5];
   uint8_t offsetL = 0;
   uint8_t offsetR = 0;
-} barStyle;
+} style;
 
 #endif
