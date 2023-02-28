@@ -69,13 +69,13 @@ void LilProg<T>::printChar(uint8_t n, uint8_t fill) {
     lcd.setCursor(pX + n, pY);
     lcd.print("\10");
   } else if (n == width) {
-    buildCharacter(&st.maskRN, &st.maskRP, fill, 0);
+    buildCharacter(&st.maskRN, &st.maskRP, fill, 1);
     lcd.setCursor(pX + n, pY);
-    lcd.print("\10");
+    lcd.print("\11");
   } else {
-    buildCharacter(&st.maskMN, &st.maskMP, fill, 0);
+    buildCharacter(&st.maskMN, &st.maskMP, fill, 2);
     lcd.setCursor(pX + n, pY);
-    lcd.print("\10");
+    lcd.print("\12");
   }
 }
 
