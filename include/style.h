@@ -10,7 +10,7 @@
 
 typedef uint8_t mask[5];
 
-struct barStyle {
+typedef struct {
   mask maskLN[5];
   mask maskLP[5];
   mask maskRN[5];
@@ -19,8 +19,6 @@ struct barStyle {
   mask maskMP[5];
   uint8_t offsetL = 0;
   uint8_t offsetR = 0;
-};
-
-typedef struct barStyle style;
+} barStyle;
 
 #endif
