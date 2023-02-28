@@ -37,18 +37,7 @@ void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint
     }
   }
 
-  byte lambda[8] = {
-    0b10000,
-    0b01000,
-    0b01000,
-    0b00100,
-    0b00100,
-    0b01010,
-    0b10001,
-    0b00000
-  };
-
-  lcd.createChar(addr, lambda);
+  lcd.createChar(addr, c);
 }
 
 template <class T>
