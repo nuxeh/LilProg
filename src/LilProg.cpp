@@ -18,20 +18,20 @@ void LilProg<T>::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_t addr) {
     }
   }
 
-  LCD.createChar(addr, c);
+  lcd.createChar(addr, c);
 }
 
 template <class T>
 void LilProg<T>::printChar(uint8_t w, uint8_t n, uint8_t fill) {
   if (n == 0) {
     buildCharacter(st.maskLN, st.maskLP, fill, 0);
-    LCD.print("\10");
+    lcd.print("\10");
   } else if (n == w) {
     buildCharacter(st.maskRN, st.maskRP, fill, 0);
-    LCD.print("\10");
+    lcd.print("\10");
   } else {
     buildCharacter(st.maskMN, st.maskMP, fill, 0);
-    LCD.print("\10");
+    lcd.print("\10");
   }
 
 }
@@ -77,7 +77,7 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
     filledBlocks -= 1;
   }
 
-  LCD.setCursor(x, y);
+  lcd.setCursor(x, y);
 
   for (uint8_t i=0; i<w; i++) {
     if (i <= filledBlocks) {
