@@ -1,7 +1,36 @@
 #include "SmoothProgressDirect.h"
-#include "barstyle.h"
 
-void buildCharacter() {
+void SmoothProgressDirect::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_t n) {
+  uint8_t b;
+  uint8_t c[8] = {0};
+
+  for (uint8_t i=0; i<5; i++) {
+    if (i <= fill) {
+      b = 0xFF;
+    } else {
+      b = 0x00;
+    }
+    b &= n[i];
+    b |= p[i];
+    for (uint8_t j=0; j<8; j++) {
+      c[j] |= (b[j] & (1 << j)); // transpose
+    }
+  }
+
+  LCD.createChar(n, c);
+}
+
+void SmoothProgressDirect::printChar(uint8_t w, uint8_t n, uint8_t fill) {
+  if (n == 0) {
+    buildCharacter(st.maskLN, st.maskLP, fill, 0);
+    LCD.print("\10");
+  } else if (n == w) {
+    buildCharacter(st.maskRN, st.maskRP, fill, 0);
+    LCD.print("\10");
+  } else {
+    buildCharacter(st.maskMN, st.maskMP, fill, 0);
+    LCD.print("\10");
+  }
 
 }
 
@@ -30,8 +59,9 @@ void SmoothProgressDirect::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
     pc = 100;
   }
 
-  uint8_t wPx = (w * 5) + (w - 1); // calculate the total w idth in px, including gaps
+  uint8_t wPx = (w * 5) + (w - 1); // total width in px, including gaps
   wPx -= st->offsetL + st->offsetR; // reduce by edge offsets
+
   uint8_t wFilled = (uint8_t)(((uint32_t)wPx * 10UL * (uint32_t)pc) / 1000UL); // scale by percentage
   uint8_t pFilled = wFilled + st.offsetL;
 
@@ -45,12 +75,15 @@ void SmoothProgressDirect::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
     filledBlocks -= 1;
   }
 
-  uint8_t emptyBlocks = w - filledBlocks - 2;
-
-  uint16_t curFill = 0;
-  uint8_t c[5] = {0}; // buffer for one character
-
   LCD.setCursor(x, y);
 
-
+  for (uint8_t i=0; i<w; i++) {
+    if (i <= filledBlocks) {
+      printChar(w, i, 4);
+    } else if (i == filledBlocks + 1 && haveTransitionBlock) {
+      printChar(w, i, transitionBlockFill);
+    } else {
+      printChar(w, i, 0);
+    }
+  }
 }

@@ -11,12 +11,12 @@
 typedef uint8_t mask[5];
 
 struct style {
-  uint8_t maskLN[5];
-  uint8_t maskLP[5];
-  uint8_t maskRN[5];
-  uint8_t maskRP[5];
-  uint8_t maskMN[5];
-  uint8_t maskMP[5];
+  mask maskLN[5];
+  mask maskLP[5];
+  mask maskRN[5];
+  mask maskRP[5];
+  mask maskMN[5];
+  mask maskMP[5];
   uint8_t offsetL = 0;
   uint8_t offsetR = 0;
 };
