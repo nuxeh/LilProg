@@ -17,6 +17,7 @@ private:
 
   T& lcd;
   const style& st;
+  uint8_t pX, pY, width;
 };
 
 template <class T>
@@ -41,15 +42,18 @@ void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint
 }
 
 template <class T>
-void LilProg<T>::printChar(uint8_t w, uint8_t n, uint8_t fill) {
+void LilProg<T>::printChar(uint8_t n, uint8_t fill) {
   if (n == 0) {
     buildCharacter(&st.maskLN, &st.maskLP, fill, 0);
+    lcd.setCursor(pX + n, pY);
     lcd.print("\10");
-  } else if (n == w) {
+  } else if (n == width) {
     buildCharacter(&st.maskRN, &st.maskRP, fill, 0);
+    lcd.setCursor(pX + n, pY);
     lcd.print("\10");
   } else {
     buildCharacter(&st.maskMN, &st.maskMP, fill, 0);
+    lcd.setCursor(pX + n, pY);
     lcd.print("\10");
   }
 }
@@ -79,6 +83,10 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
     pc = 100;
   }
 
+  pX = x;
+  pY = y;
+  width = w;
+
   uint8_t wPx = (w * 5) + (w - 1); // total width in px, including gaps
   wPx -= st.offsetL + st.offsetR; // reduce by edge offsets
 
@@ -96,7 +104,6 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   }
 
   for (uint8_t i=0; i<w; i++) {
-    lcd.setCursor(x + i, y);
     if (i <= filledBlocks) {
       printChar(w, i, 4);
     } else if (i == filledBlocks + 1 && haveTransitionBlock) {
