@@ -1,6 +1,6 @@
-#include "SmoothProgressDirect.h"
+#include "LilProg.h"
 
-void SmoothProgressDirect::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_t n) {
+void LilProg::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_t n) {
   uint8_t b;
   uint8_t c[8] = {0};
 
@@ -20,7 +20,7 @@ void SmoothProgressDirect::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_
   LCD.createChar(n, c);
 }
 
-void SmoothProgressDirect::printChar(uint8_t w, uint8_t n, uint8_t fill) {
+void LilProg::printChar(uint8_t w, uint8_t n, uint8_t fill) {
   if (n == 0) {
     buildCharacter(st.maskLN, st.maskLP, fill, 0);
     LCD.print("\10");
@@ -51,7 +51,7 @@ void SmoothProgressDirect::printChar(uint8_t w, uint8_t n, uint8_t fill) {
  *   <----wFilled----><------wEmpty------>
  */
 
-void SmoothProgressDirect::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
+void LilProg::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   if (w > 42) {
     w = 42;
   }

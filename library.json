@@ -1,12 +1,12 @@
 {
-  "name": "SmoothProgressDirect",
+  "name": "LilProg",
   "version": "0.1.0",
-  "description": "Alternative API for the SmoothProgress library",
+  "description": "A small implementation of continuous graphical progress bars for HD44780 LCD displays",
   "keywords": "",
   "repository":
   {
     "type": "git",
-    "url": "https://github.com/nuxeh/SmoothScrollerDirect"
+    "url": "https://github.com/nuxeh/LilProg"
   },
   "authors":
   [
