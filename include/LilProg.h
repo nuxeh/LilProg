@@ -31,11 +31,11 @@ void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint
     } else {
       b = 0x00;
     }
-    Serial.print(b, BIN);
+    Serial.println(b, BIN);
     b &= *n[i];
-    Serial.print(b, BIN);
+    Serial.println(b, BIN);
     b |= *p[i];
-    Serial.print(b, BIN);
+    Serial.println(b, BIN);
     for (uint8_t j=0; j<8; j++) {
       c[j] |= (b & (1 << j)); // transpose
     }
