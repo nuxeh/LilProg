@@ -46,7 +46,7 @@ const style PROG_DECORATOR rounded = {
     0b10000001
   },
   .offsetL = 2,
-  .offsetR = 2 
+  .offsetR = 2
 };
 
 #endif

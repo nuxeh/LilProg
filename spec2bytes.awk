@@ -66,7 +66,7 @@ function calcOffset() {
 
 END {
   print "  ." o[6], "=", offsetLeft ",\n"
-  print "  ." o[7], "=", offsetRight, "\n"
+  print "  ." o[7], "=", offsetRight"\n"
   print "};\n"
   print "\n#endif"
 }
