@@ -5,7 +5,8 @@ BEGIN {
   curr = 0
   if (styleName == "") styleName = "style"
   print "#ifndef __STYLE_" toupper(styleName) "_H__\n\n"
-  print "const uint8_t PROGMEM", tolower(styleName), "[8][5] = {\n" 
+  print "#include \"style.h\"\n\n"
+  print "const style PROGMEM", tolower(styleName), "= {\n"
 }
 
 {

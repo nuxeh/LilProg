@@ -1,5 +1,7 @@
 #ifndef __STYLE_H__
 
+#include <Arduino.h>
+
 #define LNEG 0
 #define LPOS 1
 #define RNEG 2
