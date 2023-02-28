@@ -15,8 +15,8 @@ private:
   void buildCharacter(mask *p, mask *n, uint8_t fill, uint8_t addr);
   void printChar(uint8_t w, uint8_t n, uint8_t fill);
 
-  const style& st;
   T& lcd;
+  const style& st;
 };
 
 #endif
