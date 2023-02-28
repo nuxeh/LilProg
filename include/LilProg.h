@@ -26,7 +26,7 @@ class LilProg {
   void draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc);
 
 private:
-  void buildCharacter(mask *p, mask *n, uint8_t fill, uint8_t n);
+  void buildCharacter(mask *p, mask *n, uint8_t fill, uint8_t addr);
   void printChar(uint8_t w, uint8_t n, uint8_t fill) {
 
   style& st;
