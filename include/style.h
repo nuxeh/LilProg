@@ -17,8 +17,8 @@ typedef struct {
   mask maskRP;
   mask maskMN;
   mask maskMP;
-  uint8_t offsetL = 0;
-  uint8_t offsetR = 0;
+  uint8_t offsetL;
+  uint8_t offsetR;
 } style;
 
 #endif
