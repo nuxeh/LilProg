@@ -14,7 +14,7 @@ void LilProg<T>::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_t addr) {
     b &= *n[i];
     b |= *p[i];
     for (uint8_t j=0; j<8; j++) {
-      c[j] |= (*b[j] & (1 << j)); // transpose
+      c[j] |= (b[j] & (1 << j)); // transpose
     }
   }
 
