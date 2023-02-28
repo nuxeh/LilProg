@@ -1,4 +1,5 @@
-#ifndef __PROGRESS_H__
+#ifndef __LIL_PROG_H__
+#define __LIL_PROG_H__
 
 #include "style.h"
 
