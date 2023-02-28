@@ -61,7 +61,7 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   }
 
   uint8_t wPx = (w * 5) + (w - 1); // total width in px, including gaps
-  wPx -= st->offsetL + st->offsetR; // reduce by edge offsets
+  wPx -= st.offsetL + st.offsetR; // reduce by edge offsets
 
   uint8_t wFilled = (uint8_t)(((uint32_t)wPx * 10UL * (uint32_t)pc) / 1000UL); // scale by percentage
   uint8_t pFilled = wFilled + st.offsetL;
