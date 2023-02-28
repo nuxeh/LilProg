@@ -1,6 +1,6 @@
 #include "LilProg.h"
 
-void LilProg::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_t n) {
+void LilProg::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_t addr) {
   uint8_t b;
   uint8_t c[8] = {0};
 
@@ -17,7 +17,7 @@ void LilProg::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_t n) {
     }
   }
 
-  LCD.createChar(n, c);
+  LCD.createChar(addr, c);
 }
 
 void LilProg::printChar(uint8_t w, uint8_t n, uint8_t fill) {
