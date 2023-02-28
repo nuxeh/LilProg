@@ -12,7 +12,7 @@ public:
   void draw(uint8_t, uint8_t, uint8_t, uint8_t);
 
 private:
-  void buildCharacter(mask *, mask *, uint8_t, uint8_t);
+  void buildCharacter(const mask *, const mask *, uint8_t, uint8_t);
   void printChar(uint8_t, uint8_t, uint8_t);
 
   T& lcd;
@@ -20,7 +20,7 @@ private:
 };
 
 template <class T>
-void LilProg<T>::buildCharacter(mask *n, mask *p, uint8_t fill, uint8_t addr) {
+void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint8_t addr) {
   uint8_t b;
   uint8_t c[8] = {0};
 
