@@ -56,12 +56,15 @@ void LilProg<T>::printChar(uint8_t w, uint8_t n, uint8_t fill) {
   if (n == 0) {
     buildCharacter(&st.maskLN, &st.maskLP, fill, 0);
     lcd.print("\10");
+    lcd.print("<");
   } else if (n == w) {
     buildCharacter(&st.maskRN, &st.maskRP, fill, 0);
     lcd.print("\10");
+    lcd.print(">");
   } else {
     buildCharacter(&st.maskMN, &st.maskMP, fill, 0);
     lcd.print("\10");
+    lcd.print("=");
   }
 }
 
