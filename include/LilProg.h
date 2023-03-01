@@ -20,6 +20,12 @@ private:
   uint8_t pX, pY, width;
 };
 
+#define AddrBlockTransition 0x08
+#define AddrBlockLeft       0x09
+#define AddrBlockRight      0x0A
+#define AddrBlockMidEmpty   0x0B
+#define AddrBlockMidFull    0x0C
+
 /*
   0b00000000,
   0b00000000,
@@ -46,7 +52,7 @@ void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint
     if (i <= fill) {
       b = 0xFF;
     } else {
-      b = 0b00100;
+      b = 0x00;
     }
     //b &= *n[i];
     //b |= *p[i];
@@ -57,23 +63,6 @@ void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint
   }
 
   lcd.createChar(addr, c);
-}
-
-template <class T>
-void LilProg<T>::printChar(uint8_t n, uint8_t fill) {
-  if (n == 0) {
-    buildCharacter(&st.maskLN, &st.maskLP, fill, 0);
-    lcd.setCursor(pX + n, pY);
-    lcd.print("\10");
-  } else if (n == width - 1) {
-    buildCharacter(&st.maskRN, &st.maskRP, fill, 1);
-    lcd.setCursor(pX + n, pY);
-    lcd.print("\11");
-  } else {
-    buildCharacter(&st.maskMN, &st.maskMP, fill, 2);
-    lcd.setCursor(pX + n, pY);
-    lcd.print("\12");
-  }
 }
 
 /*
@@ -110,27 +99,67 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   wPx -= st.offsetL + st.offsetR; // reduce by edge offsets
 
   uint8_t wFilled = (uint8_t)(((uint32_t)wPx * 10UL * (uint32_t)pc) / 1000UL); // scale by percentage
+
   uint8_t pFilled = wFilled + st.offsetL;
-
   uint8_t transitionBlock = pFilled / 6;
-  uint8_t filledBlocks = transitionBlock;
   uint8_t transitionBlockFill = pFilled % 6;
-  bool haveTransitionBlock = (transitionBlockFill < 5);
 
-  // last pixel is in the gap
+  uint8_t filledBlocks;
+  bool haveTransitionBlock;
+
+  if (transitionBlockFill < 5) {
+    haveTransitionBlock = true;
+    filledBlocks = transitionBlock - 1;
+  } else {
+    haveTransitionBlock = false;
+    filledBlocks = transitionBlock;
+  }
+
+  /* make left block */
+  if (transitionBlock == 0) {
+    buildCharacter(&st.maskLN, &st.maskLP, transitionBlockFill + 1, AddrBlockLeft);
+  } else {
+    buildCharacter(&st.maskLN, &st.maskLP, 5, AddrBlockLeft);
+  }
+
+  /* make right block */
+  if (transitionBlock == w - 1) {
+    buildCharacter(&st.maskRN, &st.maskRP, transitionBlockFill + 1, AddrBlockRight);
+  } else {
+    buildCharacter(&st.maskRN, &st.maskRP, 5, AddrBlockRight);
+  }
+
+  lcd.setCursor(x, y);
+  lcd.write(AddrBlockLeft);
+
+  uint8_t block;
+  for (block=0; block<filledBlocks; block++) {
+
+  }
   if (haveTransitionBlock) {
-    filledBlocks -= 1;
+
+    block++;
+  }
+  for (; block<width; block++) {
+
   }
 
-  for (uint8_t i=0; i<w; i++) {
-    if (i <= filledBlocks) {
-      printChar(i, 5);
-    } else if (i == (filledBlocks + 1) && haveTransitionBlock) {
-      printChar(i, transitionBlockFill + 1);
-    } else {
-      printChar(i, 0);
-    }
-  }
+  lcd.write(AddrBlockRight);
 }
+
+
+
+
+/*
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
+
 
 #endif
