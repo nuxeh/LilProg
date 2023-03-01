@@ -54,7 +54,7 @@ void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint
     } else {
       b = 0x00;
     }
-    //b &= *n[i];
+    b &= *n[i-1];
     //b |= *p[i];
     for (uint8_t j=0; j<8; j++) {
       c[j] |= ((b & 1) << (5 - i)); // transpose
@@ -129,22 +129,40 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
     buildCharacter(&st.maskRN, &st.maskRP, 5, AddrBlockRight);
   }
 
+  /* make filled and empty mid blocks */
+  buildCharacter(&st.maskMN, &st.maskMP, 0, AddrBlockMidEmpty);
+  buildCharacter(&st.maskMN, &st.maskMP, 5, AddrBlockMidFull);
+
+  /* make transition block */
+  if (haveTransitionBlock) {
+    buildCharacter(&st.maskMN, &st.maskMP, transitionBlockFill + 1, AddrBlockTransition);
+  }
+
   lcd.setCursor(x, y);
-  lcd.write(AddrBlockLeft);
+  //lcd.write(AddrBlockLeft);
+  lcd.write('L');
 
   uint8_t block;
   for (block=0; block<filledBlocks; block++) {
-
+    lcd.setCursor(x+block, y);
+    //lcd.write(AddrBlockMidFull);
+    lcd.write('F');
   }
   if (haveTransitionBlock) {
-
+    lcd.setCursor(x+block, y);
+    //lcd.write(AddrBlockTransition);
+    lcd.write('T');
     block++;
   }
   for (; block<width; block++) {
-
+    lcd.setCursor(x+block, y);
+    //lcd.write(AddrBlockMidEmpty);
+    lcd.write('E');
   }
 
-  lcd.write(AddrBlockRight);
+  lcd.setCursor(x+block, y);
+  //lcd.write(AddrBlockRight);
+  lcd.write('R');
 }
 
 
