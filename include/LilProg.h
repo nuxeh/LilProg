@@ -42,19 +42,16 @@ void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint
   uint8_t b;
   uint8_t c[8] = {0};
 
-  for (uint8_t i=0; i<5; i++) {
+  for (uint8_t i=1; i<6; i++) {
     if (i <= fill) {
       b = 0xFF;
     } else {
-      b = 0x00;
+      b = 0b00100;
     }
-    Serial.println(b, BIN);
-    b &= *n[i];
-    Serial.println(b, BIN);
-    b |= *p[i];
-    Serial.println(b, BIN);
+    //b &= *n[i];
+    //b |= *p[i];
     for (uint8_t j=0; j<8; j++) {
-      c[j] |= ((b & 1) << (4 - i)); // transpose
+      c[j] |= ((b & 1) << (5 - i)); // transpose
       b >>= 1;
     }
   }
@@ -68,7 +65,7 @@ void LilProg<T>::printChar(uint8_t n, uint8_t fill) {
     buildCharacter(&st.maskLN, &st.maskLP, fill, 0);
     lcd.setCursor(pX + n, pY);
     lcd.print("\10");
-  } else if (n == width) {
+  } else if (n == width - 1) {
     buildCharacter(&st.maskRN, &st.maskRP, fill, 1);
     lcd.setCursor(pX + n, pY);
     lcd.print("\11");
@@ -90,6 +87,7 @@ void LilProg<T>::printChar(uint8_t n, uint8_t fill) {
  * #.... ..... #.... ..... #.... ..... #....
  * .###. ..... .###. ..... .###. ..... .###.
  * ..... ..... ..... ..... ..... ..... .....
+ *             fill: 012345
  * <-------------------w-------------------> =40
  * <> offsetL                     offsetR <>
  *   <----------------Wpx---------------->
@@ -126,9 +124,9 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
 
   for (uint8_t i=0; i<w; i++) {
     if (i <= filledBlocks) {
-      printChar(i, 4);
-    } else if (i == filledBlocks + 1 && haveTransitionBlock) {
-      printChar(i, transitionBlockFill);
+      printChar(i, 5);
+    } else if (i == (filledBlocks + 1) && haveTransitionBlock) {
+      printChar(i, transitionBlockFill + 1);
     } else {
       printChar(i, 0);
     }
