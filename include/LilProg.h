@@ -115,6 +115,7 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
     filledBlocks = transitionBlock;
   }
 
+#if 0
   /* make left block */
   if (transitionBlock == 0) {
     buildCharacter(&st.maskLN, &st.maskLP, transitionBlockFill + 1, AddrBlockLeft);
@@ -137,13 +138,16 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   if (haveTransitionBlock) {
     buildCharacter(&st.maskMN, &st.maskMP, transitionBlockFill + 1, AddrBlockTransition);
   }
+#endif
 
   lcd.setCursor(x, y);
   //lcd.write(AddrBlockLeft);
   lcd.write('L');
 
   uint8_t block;
-  for (block=0; block<filledBlocks; block++) {
+  Serial.print("filled blocks: ");
+  Serial.println(filledBlocks);
+  for (block=1; block<filledBlocks; block++) {
     lcd.setCursor(x+block, y);
     //lcd.write(AddrBlockMidFull);
     lcd.write('F');
