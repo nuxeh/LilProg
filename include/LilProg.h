@@ -20,11 +20,11 @@ private:
   uint8_t pX, pY, width;
 };
 
-#define AddrBlockTransition 0x08
-#define AddrBlockLeft       0x09
-#define AddrBlockRight      0x0A
-#define AddrBlockMidEmpty   0x0B
-#define AddrBlockMidFull    0x0C
+#define AddrBlockTransition 0x00
+#define AddrBlockLeft       0x01
+#define AddrBlockRight      0x02
+#define AddrBlockMidEmpty   0x03
+#define AddrBlockMidFull    0x04
 
 /*
   0b00000000,
