@@ -145,32 +145,29 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   lcd.setCursor(x, y);
   //lcd.write(AddrBlockLeft);
 
-  uint8_t block;
-  Serial.print("filled blocks: ");
-  Serial.println(filledBlocks);
-  for (block=0; block<filledBlocks; block++) {
-    lcd.setCursor(x+block, y);
-    //lcd.write(AddrBlockMidFull);
-    if (filledBlocks == 0 && block == 0) {
-      lcd.write('L');
-    } else {
-      lcd.write('F');
+  Serial.print("trb: ");
+  Serial.println(transitionBlock);
+  Serial.print("havetrb: ");
+  Serial.println(haveTransitionBlock);
+
+  uint8_t block = 0;
+  do {
+    if (haveTransitionBlock && block == transitionBlock) {
+      lcd.print('T');
     }
-  }
-  if (haveTransitionBlock) {
-    lcd.setCursor(x+block, y);
-    //lcd.write(AddrBlockTransition);
-    lcd.write('T');
-    block++;
-  }
-  for (; block<width-1; block++) {
-    lcd.setCursor(x+block, y);
-    //lcd.write(AddrBlockMidEmpty);
-    lcd.write('E');
-  }
-  lcd.setCursor(x+block, y);
-  //lcd.write(AddrBlockRight);
-  lcd.write('R');
+    else if (block == 0) {
+      lcd.print('L');
+    }
+    else if (block == w) {
+      lcd.print('R');
+    }
+    else if (block <= filledBlocks) {
+      lcd.print('F');
+    }
+    else {
+      lcd.print('E');
+    }
+  } while (block++ < w); 
 }
 
 
