@@ -152,13 +152,14 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
 
   uint8_t block = 0;
   do {
+    Serial.println(block);
     if (haveTransitionBlock && block == transitionBlock) {
       lcd.print('T');
     }
     else if (block == 0) {
       lcd.print('L');
     }
-    else if (block == w) {
+    else if (block == w - 1) {
       lcd.print('R');
     }
     else if (block <= filledBlocks) {
@@ -167,7 +168,7 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
     else {
       lcd.print('E');
     }
-  } while (block++ < w); 
+  } while (block++ < w - 1);
 }
 
 
