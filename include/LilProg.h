@@ -9,15 +9,20 @@ template <class T>
 class LilProg {
 public:
   LilProg(T& l, const style& s) : lcd(l), st(s) {}
+  void init();
+  void setGeometry(uint8_t, uint8_t, uint8_t);
+  void draw(uint8_t);
   void draw(uint8_t, uint8_t, uint8_t, uint8_t);
 
 private:
+  void initCharacters();
   void buildCharacter(const mask *, const mask *, uint8_t, uint8_t);
   void printChar(uint8_t, uint8_t);
 
   T& lcd;
   const style& st;
   uint8_t pX, pY, width;
+  uint8_t count = 0;
 };
 
 #define AddrBlockTransition 0x00
@@ -44,6 +49,17 @@ private:
  */
 
 template <class T>
+void LilProg<T>::init() {
+  count = 0;
+  initCharacters();
+}
+
+template <class T>
+void LilProg<T>::initCharacters() {
+
+}
+
+template <class T>
 void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint8_t addr) {
   uint8_t b;
   uint8_t c[8] = {0};
@@ -65,6 +81,16 @@ void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint
   lcd.createChar(addr, c);
 }
 
+template <class T>
+void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w) {
+  if (w > 42) {
+    w = 42;
+  }
+  width = w;
+  pX = x;
+  pY = y;
+}
+
 /*
  *           1111111111222222222233333333334
  * 01234567890123456789012345678901234567890
@@ -84,16 +110,11 @@ void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint
  */
 template <class T>
 void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
-  if (w > 42) {
-    w = 42;
-  }
+  setGeometry(x, y, w);
+
   if (pc > 100) {
     pc = 100;
   }
-
-  pX = x;
-  pY = y;
-  width = w;
 
   uint8_t wPx = (w * 5) + (w - 1); // total width in px, including gaps
   wPx -= st.offsetL + st.offsetR; // reduce by edge offsets
@@ -141,6 +162,10 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
     buildCharacter(&st.maskMN, &st.maskMP, transitionBlockFill + 1, AddrBlockTransition);
   }
 #endif
+}
+
+template <class T>
+void LilProg<T>::draw(uint8_t pc) {
 
   lcd.setCursor(x, y);
   //lcd.write(AddrBlockLeft);
