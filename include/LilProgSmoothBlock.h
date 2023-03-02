@@ -6,9 +6,9 @@
 #include <Arduino.h>
 
 template <class T>
-class LilProgSmoothBlock {
+class LilProgSmoothBar {
 public:
-  LilProgSmoothBlock(T& l) : lcd(l) {};
+  LilProgSmoothBar(T& l) : lcd(l) {};
   void begin();
   void setGeometry(uint8_t, uint8_t, uint8_t, uint8_t);
   void draw();
@@ -48,12 +48,12 @@ private:
  */
 
 template <class T>
-void LilProgSmoothBlock<T>::begin() {
+void LilProgSmoothBar<T>::begin() {
   initCharacters();
 }
 
 template <class T>
-void LilProgSmoothBlock<T>::initCharacters() {
+void LilProgSmoothBar<T>::initCharacters() {
   buildCharacter(5, AddrBlockLeft);
   buildCharacter(0, AddrBlockRight);
   buildCharacter(0, AddrBlockMidEmpty);
@@ -61,7 +61,7 @@ void LilProgSmoothBlock<T>::initCharacters() {
 }
 
 template <class T>
-void LilProgSmoothBlock<T>::buildCharacter(uint8_t fill, uint8_t addr) {
+void LilProgSmoothBar<T>::buildCharacter(uint8_t fill, uint8_t addr) {
   uint8_t c[8] = {0};
   uint8_t b;
 
@@ -81,7 +81,7 @@ void LilProgSmoothBlock<T>::buildCharacter(uint8_t fill, uint8_t addr) {
 }
 
 template <class T>
-void LilProgSmoothBlock<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
+void LilProgSmoothBar<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   if (pc > 100) {
     pc = 100;
   }
@@ -127,14 +127,14 @@ void LilProgSmoothBlock<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t
  *   <----wFilled----><------wEmpty------>
  */
 template <class T>
-void LilProgSmoothBlock<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
+void LilProgSmoothBar<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   setGeometry(x, y, w, pc);
   draw();
 }
 
 // TODO: optimise redraws
 template <class T>
-void LilProgSmoothBlock<T>::draw() {
+void LilProgSmoothBar<T>::draw() {
   if (haveTransitionBlock) {
     buildCharacter(fill, addr);
   }
