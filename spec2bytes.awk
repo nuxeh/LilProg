@@ -2,15 +2,15 @@ BEGIN {
   FS = ""
   ORS = ""
   count = 0
+  count2 = 0
   curr = 0
-  o[0] = "maskLN"
-  o[1] = "maskLP"
-  o[2] = "maskRN"
-  o[3] = "maskRP"
-  o[4] = "maskMN"
-  o[5] = "maskMP"
-  o[6] = "offsetL"
-  o[7] = "offsetR"
+  m[1] = "pos"
+  m[0] = "neg"
+  n[0] = "maskLeft"
+  n[2] = "maskRight"
+  n[4] = "maskMid"
+  o[6] = "offsetLeft"
+  o[7] = "offsetRight"
   offsetLeft = 0
   offsetRight = 0
   if (styleName == "") styleName = "style"
@@ -26,21 +26,28 @@ NF>=5 {
     else if ($i == "#") b[i][count] = 1
   }
   if (count++ == 7) {
+    if (count2 % 2 == 0) {
+      print "  " n[count2], "= {\n"
+    }
     count = 0
+    count2++
     calcOffset()
     printByte()
     delete b
+    if (count2 % 2 == 0) {
+      print "  },\n"
+    }
   }
 }
 
 function printByte() {
-  print "  ."o[curr], "= {\n"
+  print "    ." m[curr % 2], "= {\n"
   for (i=1; i<=5; i++) {
-    print "    0b"
+    print "      0b"
     for (j=0; j<8; j++) {
       print b[i][j]
     }
-    if (i == 5) print "\n  },\n"
+    if (i == 5) print "\n    },\n"
     else print ",\n"
   }
   curr++

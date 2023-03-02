@@ -15,7 +15,7 @@ public:
 
 private:
   void initCharacters();
-  void buildCharacter(const mask *, const mask *, uint8_t, uint8_t);
+  void buildCharacter(const mask *, uint8_t, uint8_t);
   void printChar(uint8_t, uint8_t);
 
   T& lcd;
@@ -59,7 +59,7 @@ void LilProg<T>::initCharacters() {
 }
 
 template <class T>
-void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint8_t addr) {
+void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
   uint8_t b;
   uint8_t c[8] = {0};
 
@@ -69,7 +69,7 @@ void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint
     } else {
       b = 0x00;
     }
-    b &= *n[i-1];
+    b &= m->neg[i-1];
     //b |= *p[i];
     for (uint8_t j=0; j<8; j++) {
       c[j] |= ((b & 1) << (5 - i)); // transpose
@@ -92,9 +92,9 @@ void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   pX = x;
   pY = y;
 
-  uint8_t wPx = (w * 5) + (w - 1) - st.offsetL - st.offsetR; // total width in px, including gaps
+  uint8_t wPx = (w * 5) + (w - 1) - st.offsetLeft - st.offsetRight; // total width in px, including gaps
   uint8_t wFilled = (uint8_t)(((uint32_t)wPx * 10UL * (uint32_t)pc) / 1000UL); // scale by percentage
-  uint8_t pFilled = wFilled + st.offsetL;
+  uint8_t pFilled = wFilled + st.offsetLeft;
 
   transitionBlock = pFilled / 6;
   transitionBlockFill = pFilled % 6;
@@ -123,7 +123,7 @@ void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
  * ..... ..... ..... ..... ..... ..... .....
  *             fill: 012345
  * <-------------------w-------------------> =40
- * <> offsetL                     offsetR <>
+ * <> offsetLeft              offsetRight <>
  *   <----------------Wpx---------------->
  *   <----wFilled----><------wEmpty------>
  */

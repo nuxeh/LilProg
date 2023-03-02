@@ -9,17 +9,17 @@
 #define PROG_DECORATOR
 #endif
 
-typedef uint8_t mask[5];
+typedef struct {
+  uint8_t pos[5];
+  uint8_t neg[5];
+} mask;
 
 typedef struct {
-  mask maskLN;
-  mask maskLP;
-  mask maskRN;
-  mask maskRP;
-  mask maskMN;
-  mask maskMP;
-  uint8_t offsetL;
-  uint8_t offsetR;
+  mask maskLeft;
+  mask maskRight;
+  mask maskMid;
+  uint8_t offsetLeft;
+  uint8_t offsetRight;
 } style;
 
 #endif
