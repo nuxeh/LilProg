@@ -181,6 +181,8 @@ void LilProgSmoothBar<T>::draw() {
     }
   } while (block++ < width - 1);
   Serial.println();
+  Serial.print("filled: ");
+  Serial.println(filledBlocks);
 
   // update address counter
   if (haveTransitionBlock) {
