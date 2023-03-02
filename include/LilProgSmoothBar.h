@@ -69,7 +69,7 @@ void LilProgSmoothBar<T>::buildCharacter(uint8_t fill, uint8_t addr) {
 
   for (uint8_t col=0; col<5; col++) {
     if (fill > col) {
-      b = 0xFF;
+      b = colMask;
     } else {
       b = 0x00;
     }
