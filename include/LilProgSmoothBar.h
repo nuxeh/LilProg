@@ -27,10 +27,8 @@ private:
   uint8_t count = 0;
 };
 
-#define AddrBlockLeft       0x04
-#define AddrBlockRight      0x05
-#define AddrBlockMidEmpty   0x06
-#define AddrBlockMidFull    0x07
+#define AddrBlockEmpty   0x06
+#define AddrBlockFull    0x07
 
 /*
   0b00000000,
@@ -56,10 +54,8 @@ void LilProgSmoothBar<T>::begin() {
 
 template <class T>
 void LilProgSmoothBar<T>::initCharacters() {
-  buildCharacter(5, AddrBlockLeft);
-  buildCharacter(0, AddrBlockRight);
-  buildCharacter(0, AddrBlockMidEmpty);
-  buildCharacter(5, AddrBlockMidFull);
+  buildCharacter(0, AddrBlockEmpty);
+  buildCharacter(5, AddrBlockFull);
 }
 
 template <class T>
@@ -157,17 +153,11 @@ void LilProgSmoothBar<T>::draw() {
     if (haveTransitionBlock && block == transitionBlock) {
       lcd.write(count);
     }
-    else if (block == 0) {
-      lcd.write(AddrBlockLeft);
-    }
-    else if (block == width - 1) {
-      lcd.write(AddrBlockRight);
-    }
     else if (block <= filledBlocks) {
-      lcd.write(AddrBlockMidFull);
+      lcd.write(AddrBlockFull);
     }
     else {
-      lcd.write(AddrBlockMidEmpty);
+      lcd.write(AddrBlockEmpty);
     }
   } while (block++ < width - 1);
 #ifdef LILPROG_DEBUG
