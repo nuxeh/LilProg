@@ -102,12 +102,9 @@ void LilProgSmoothBar<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t p
   transitionBlockFill = pFilled % 6;
   haveTransitionBlock = (transitionBlockFill < 5);
 
-  if (haveTransitionBlock) {
-    if (transitionBlock > 0) {
+  filledBlocks = transitionBlock;
+  if (haveTransitionBlock && transitionBlock > 0) {
       filledBlocks = transitionBlock - 1;
-    }
-  } else {
-    filledBlocks = transitionBlock;
   }
 }
 
