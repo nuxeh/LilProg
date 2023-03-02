@@ -3,6 +3,7 @@ BEGIN {
   ORS = ""
   last = ""
   count = 0
+  count2 = 0
   lastCount = 0
 }
 
@@ -10,8 +11,8 @@ BEGIN {
   for (i=1; i<=NF; i++) {
     lastCount = count
     if (count > 0) {
-      if ($i == "0") print "."
-      else if ($i == "1") print "#"
+      if ($i == "0") { print "."; count2++ }
+      else if ($i == "1") { print "#"; count2++ }
     }
     if ($i == "b" && last == "0") {
       count = 5
@@ -20,6 +21,7 @@ BEGIN {
     }
     last = $i
     if (count == 0 && lastCount != 0) print "\n"
+    if (count2 % (40) == 0 && lastCount != 0) print "\n"
   }
 }
 
