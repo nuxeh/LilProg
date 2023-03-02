@@ -136,7 +136,7 @@ void LilProgSmoothBar<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
 template <class T>
 void LilProgSmoothBar<T>::draw() {
   if (haveTransitionBlock) {
-    buildCharacter(fill, addr);
+    buildCharacter(transitionBlockFill, addr);
   }
 
   // set entry point
