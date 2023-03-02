@@ -92,8 +92,7 @@ void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   pX = x;
   pY = y;
 
-  uint8_t wPx = (w * 5) + (w - 1); // total width in px, including gaps
-  wPx -= st.offsetL + st.offsetR; // reduce by edge offsets
+  uint8_t wPx = (w * 5) + (w - 1) - st.offsetL - st.offsetR; // total width in px, including gaps
   uint8_t wFilled = (uint8_t)(((uint32_t)wPx * 10UL * (uint32_t)pc) / 1000UL); // scale by percentage
   uint8_t pFilled = wFilled + st.offsetL;
 
@@ -164,21 +163,27 @@ void LilProg<T>::draw() {
   if (haveTransitionBlock) {
     // make the transition character
     count = (count + 1) % 4;
+#ifdef LILPROG_DEBUG
     Serial.print("count updated to: ");
     Serial.println(count);
+#endif
   }
 
   lcd.setCursor(pX, pY);
   //lcd.write(AddrBlockLeft);
 
+#ifdef LILPROG_DEBUG
   Serial.print("trb: ");
   Serial.println(transitionBlock);
   Serial.print("havetrb: ");
   Serial.println(haveTransitionBlock);
+#endif
 
   uint8_t block = 0;
   do {
+#ifdef LILPROG_DEBUG
     Serial.println(block);
+#endif
     if (haveTransitionBlock && block == transitionBlock) {
       lcd.print('T');
     }
@@ -194,7 +199,7 @@ void LilProg<T>::draw() {
     else {
       lcd.print('E');
     }
-  } while (block++ < w - 1);
+  } while (block++ < width - 1);
 }
 
 
