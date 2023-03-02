@@ -4,7 +4,7 @@
 #include "style.h"
 
 const style PROG_DECORATOR rounded = {
-  maskLeft = {
+  .maskLeft = {
     .neg = {
       0b00000000,
       0b00000000,
@@ -20,7 +20,7 @@ const style PROG_DECORATOR rounded = {
       0b10000001
     },
   },
-  maskRight = {
+  .maskRight = {
     .neg = {
       0b00111100,
       0b00111100,
@@ -36,7 +36,7 @@ const style PROG_DECORATOR rounded = {
       0b00111100
     },
   },
-  maskMid = {
+  .maskMid = {
     .neg = {
       0b00111100,
       0b00111100,

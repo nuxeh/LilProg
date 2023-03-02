@@ -4,8 +4,8 @@ BEGIN {
   count = 0
   count2 = 0
   curr = 0
-  m[1] = "pos"
   m[0] = "neg"
+  m[1] = "pos"
   n[0] = "maskLeft"
   n[2] = "maskRight"
   n[4] = "maskMid"
@@ -27,7 +27,7 @@ NF>=5 {
   }
   if (count++ == 7) {
     if (count2 % 2 == 0) {
-      print "  " n[count2], "= {\n"
+      print "  ." n[count2], "= {\n"
     }
     count = 0
     count2++
