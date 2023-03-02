@@ -175,10 +175,12 @@ void LilProgSmoothBar<T>::draw() {
       Serial.print("F");
     }
     else {
-      lcd.write(AddrBlockMidEmpty);
+      //lcd.write(AddrBlockMidEmpty);
+      lcd.print("E");
       Serial.print("E");
     }
   } while (block++ < width - 1);
+  Serial.println();
 
   // update address counter
   if (haveTransitionBlock) {
