@@ -16,7 +16,7 @@ public:
 
 private:
   void initCharacters();
-  void buildTransitionChar(uint8_t, uint8_t, uint8_t);
+  void buildBlockChar(uint8_t, uint8_t, uint8_t);
   void buildCharacter(const mask *, uint8_t, uint8_t);
   void printChar(uint8_t, uint8_t);
 
@@ -85,7 +85,7 @@ void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
 }
 
 template <class T>
-void LilProg<T>::buildTransitionChar(uint8_t block, uint8_t fill, uint8_t addr) {
+void LilProg<T>::buildBlockChar(uint8_t block, uint8_t fill, uint8_t addr) {
     if (block == 0) {
       buildCharacter(&st.maskLeft, fill, addr);
     }
@@ -153,7 +153,7 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
 template <class T>
 void LilProg<T>::draw() {
   if (haveTransitionBlock) {
-    buildTransitionChar(transitionBlock, transitionBlockFill, count);
+    buildBlockChar(transitionBlock, transitionBlockFill, count);
   }
 
   // set entry point
@@ -202,6 +202,5 @@ void LilProg<T>::draw() {
 #endif
   }
 }
-
 
 #endif
