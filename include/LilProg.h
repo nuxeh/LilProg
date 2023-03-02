@@ -8,7 +8,8 @@
 template <class T>
 class LilProg {
 public:
-  LilProg(T& l, const style& s);
+  LilProg(T& l, const style& s) : lcd(l), st(s) {};
+  void begin();
   void setGeometry(uint8_t, uint8_t, uint8_t, uint8_t);
   void draw();
   void draw(uint8_t, uint8_t, uint8_t, uint8_t);
@@ -48,7 +49,7 @@ private:
  */
 
 template <class T>
-LilProg<T>::LilProg(T& l, const style& s) : lcd(l), st(s) {
+void LilProg<T>::begin() {
   initCharacters();
 }
 
@@ -188,19 +189,19 @@ void LilProg<T>::draw() {
       lcd.print('T');
     }
     else if (block == 0) {
-      //lcd.print('L');
+      lcd.print('L');
       //lcd.write(AddrBlockLeft);
     }
     else if (block == width - 1) {
-      //lcd.print('R');
+      lcd.print('R');
       //lcd.write(AddrBlockRight);
     }
     else if (block <= filledBlocks) {
-      //lcd.print('F');
+      lcd.print('F');
       //lcd.write(AddrBlockMidFull);
     }
     else {
-      //lcd.print('E');
+      lcd.print('E');
       //lcd.write(AddrBlockMidEmpty);
     }
   } while (block++ < width - 1);
