@@ -4,9 +4,10 @@ stdenv.mkDerivation {
     name = "LilProg";
 
     buildInputs = [
-      gawk
-      rustc
       cargo
+      gawk
+      git
       inkscape
+      rustc
     ];
 }
