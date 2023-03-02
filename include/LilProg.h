@@ -66,16 +66,16 @@ void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
   uint8_t b;
   uint8_t c[8] = {0};
 
-  for (uint8_t i=1; i<6; i++) {
-    if (i <= fill) {
+  for (uint8_t col=0; col<5; col++) {
+    if (fill > col) {
       b = 0xFF;
     } else {
       b = 0x00;
     }
     //b &= m->neg[i-1];
     //b |= m->pos[i-1];
-    for (uint8_t j=0; j<8; j++) {
-      c[j] |= ((b & 1) << (5 - i)); // transpose
+    for (uint8_t row=0; row<8; row++) {
+      c[row] |= ((b & 1) << (4 - col)); // transpose
       b >>= 1;
     }
   }
