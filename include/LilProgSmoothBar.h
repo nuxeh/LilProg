@@ -156,7 +156,7 @@ void LilProgSmoothBar<T>::draw() {
   uint8_t block = 0;
   do {
 #ifdef LILPROG_DEBUG
-    Serial.print(block);
+    //Serial.print(block);
 #endif
     if (haveTransitionBlock && block == transitionBlock) {
       lcd.write(count);
