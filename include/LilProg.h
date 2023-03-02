@@ -72,7 +72,7 @@ void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
     } else {
       b = 0x00;
     }
-    //b &= m->neg[i-1];
+    b &= m->neg[col];
     //b |= m->pos[i-1];
     for (uint8_t row=0; row<8; row++) {
       c[row] |= ((b & 1) << (4 - col)); // transpose
