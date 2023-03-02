@@ -10,8 +10,8 @@
 #endif
 
 typedef struct {
-  uint8_t pos[5];
   uint8_t neg[5];
+  uint8_t pos[5];
 } mask;
 
 typedef struct {
