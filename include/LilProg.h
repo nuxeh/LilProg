@@ -25,11 +25,10 @@ private:
   uint8_t count = 0;
 };
 
-#define AddrBlockTransition 0x00
-#define AddrBlockLeft       0x01
-#define AddrBlockRight      0x02
-#define AddrBlockMidEmpty   0x03
-#define AddrBlockMidFull    0x04
+#define AddrBlockLeft       0x05
+#define AddrBlockRight      0x06
+#define AddrBlockMidEmpty   0x07
+#define AddrBlockMidFull    0x08
 
 /*
   0b00000000,
@@ -55,7 +54,10 @@ LilProg<T>::LilProg(T& l, const style& s) : lcd(l), st(s) {
 
 template <class T>
 void LilProg<T>::initCharacters() {
-
+  buildCharacter(&st.maskLeft,  5, AddrBlockLeft);
+  buildCharacter(&st.maskRight, 0, AddrBlockRight);
+  buildCharacter(&st.maskMid,   0, AddrBlockMidEmpty);
+  buildCharacter(&st.maskMid,   5, AddrBlockMidFull);
 }
 
 template <class T>
@@ -70,7 +72,7 @@ void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
       b = 0x00;
     }
     b &= m->neg[i-1];
-    b |= m->pos[i-1];
+    //b |= m->pos[i-1];
     for (uint8_t j=0; j<8; j++) {
       c[j] |= ((b & 1) << (5 - i)); // transpose
       b >>= 1;
@@ -169,7 +171,6 @@ void LilProg<T>::draw() {
   }
 
   lcd.setCursor(pX, pY);
-  //lcd.write(AddrBlockLeft);
 
 #ifdef LILPROG_DEBUG
   Serial.print("trb: ");
@@ -187,16 +188,20 @@ void LilProg<T>::draw() {
       lcd.print('T');
     }
     else if (block == 0) {
-      lcd.print('L');
+      //lcd.print('L');
+      //lcd.write(AddrBlockLeft);
     }
     else if (block == width - 1) {
-      lcd.print('R');
+      //lcd.print('R');
+      //lcd.write(AddrBlockRight);
     }
     else if (block <= filledBlocks) {
-      lcd.print('F');
+      //lcd.print('F');
+      //lcd.write(AddrBlockMidFull);
     }
     else {
-      lcd.print('E');
+      //lcd.print('E');
+      //lcd.write(AddrBlockMidEmpty);
     }
   } while (block++ < width - 1);
 }
