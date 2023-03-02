@@ -16,7 +16,7 @@ public:
 
 private:
   void initCharacters();
-  void buildTransitionChar(uint8_t, uint8_t);
+  void buildTransitionChar(uint8_t, uint8_t, uint8_t);
   void buildCharacter(const mask *, uint8_t, uint8_t);
   void printChar(uint8_t, uint8_t);
 
@@ -85,17 +85,16 @@ void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
 }
 
 template <class T>
-void LilProg<T>::buildTransitionChar(uint8_t block, uint8_t fill) {
+void LilProg<T>::buildTransitionChar(uint8_t block, uint8_t fill, uint8_t addr) {
     if (block == 0) {
-      //lcd.print('L');
-      lcd.write(AddrBlockLeft);
+      buildCharacter(&st.maskLeft, fill, addr);
     }
     else if (block == width - 1) {
-      //lcd.print('R');
-      lcd.write(AddrBlockRight);
+      buildCharacter(&st.maskRight, fill, addr);
     }
-
-    //buildCharacter(st.maskMid
+    else {
+      buildCharacter(&st.maskMid, fill, addr);
+    }
 }
 
 template <class T>
@@ -149,44 +148,15 @@ template <class T>
 void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   setGeometry(x, y, w, pc);
   draw();
-
-#if 0
-  /* make left block */
-  if (transitionBlock == 0) {
-    buildCharacter(&st.maskLN, &st.maskLP, transitionBlockFill + 1, AddrBlockLeft);
-  } else {
-    buildCharacter(&st.maskLN, &st.maskLP, 5, AddrBlockLeft);
-  }
-
-  /* make right block */
-  if (transitionBlock == w - 1) {
-    buildCharacter(&st.maskRN, &st.maskRP, transitionBlockFill + 1, AddrBlockRight);
-  } else {
-    buildCharacter(&st.maskRN, &st.maskRP, 5, AddrBlockRight);
-  }
-
-  /* make filled and empty mid blocks */
-  buildCharacter(&st.maskMN, &st.maskMP, 0, AddrBlockMidEmpty);
-  buildCharacter(&st.maskMN, &st.maskMP, 5, AddrBlockMidFull);
-
-  /* make transition block */
-  if (haveTransitionBlock) {
-    buildCharacter(&st.maskMN, &st.maskMP, transitionBlockFill + 1, AddrBlockTransition);
-  }
-#endif
 }
 
 template <class T>
 void LilProg<T>::draw() {
   if (haveTransitionBlock) {
-    // make the transition character
-    count = (count + 1) % 4;
-#ifdef LILPROG_DEBUG
-    Serial.print("count updated to: ");
-    Serial.println(count);
-#endif
+    buildTransitionChar(transitionBlock, transitionBlockFill, count);
   }
 
+  // set entry point
   lcd.setCursor(pX, pY);
 
 #ifdef LILPROG_DEBUG
@@ -196,13 +166,14 @@ void LilProg<T>::draw() {
   Serial.println(haveTransitionBlock);
 #endif
 
+  // write characters
   uint8_t block = 0;
   do {
 #ifdef LILPROG_DEBUG
     Serial.println(block);
 #endif
     if (haveTransitionBlock && block == transitionBlock) {
-      lcd.print('T');
+      lcd.write(count);
     }
     else if (block == 0) {
       //lcd.print('L');
@@ -221,21 +192,16 @@ void LilProg<T>::draw() {
       lcd.write(AddrBlockMidEmpty);
     }
   } while (block++ < width - 1);
+
+  // update address counter
+  if (haveTransitionBlock) {
+    count = (count + 1) % 4;
+#ifdef LILPROG_DEBUG
+    Serial.print("count updated to: ");
+    Serial.println(count);
+#endif
+  }
 }
-
-
-
-
-/*
- *
- *
- *
- *
- *
- *
- *
- */
-
 
 
 #endif
