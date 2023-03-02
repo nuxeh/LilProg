@@ -177,8 +177,8 @@ void LilProg<T>::draw() {
       lcd.write(AddrBlockLeft);
     }
     else if (block == width - 1) {
-      lcd.print('R');
-      //lcd.write(AddrBlockRight);
+      //lcd.print('R');
+      lcd.write(AddrBlockRight);
     }
     else if (block <= filledBlocks) {
       //lcd.print('F');
@@ -189,6 +189,12 @@ void LilProg<T>::draw() {
       lcd.write(AddrBlockMidEmpty);
     }
   } while (block++ < width - 1);
+
+#ifdef LILPROG_DEBUG
+   Serial.println();
+   Serial.print("filled: ");
+   Serial.println(filledBlocks);
+#endif
 
   // update address counter
   if (haveTransitionBlock) {
