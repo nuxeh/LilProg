@@ -9,6 +9,7 @@ template <class T>
 class LilProgSmoothBar {
 public:
   LilProgSmoothBar(T& l) : lcd(l) {};
+  LilProgSmoothBar(T& l, uint8_t colMask) : lcd(l), colMask(colMask) {};
   void begin();
   void setGeometry(uint8_t, uint8_t, uint8_t, uint8_t);
   void draw();
@@ -22,6 +23,7 @@ private:
   T& lcd;
   uint8_t pX, pY, width, transitionBlock, transitionBlockFill, filledBlocks;
   bool haveTransitionBlock;
+  uint8_t colMask = 0xFF;
   uint8_t count = 0;
 };
 
