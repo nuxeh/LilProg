@@ -8,10 +8,9 @@
 template <class T>
 class LilProg {
 public:
-  LilProg(T& l, const style& s) : lcd(l), st(s) {}
-  void init();
-  void setGeometry(uint8_t, uint8_t, uint8_t);
-  void draw(uint8_t);
+  LilProg(T& l, const style& s);
+  void setGeometry(uint8_t, uint8_t, uint8_t, uint8_t);
+  void draw();
   void draw(uint8_t, uint8_t, uint8_t, uint8_t);
 
 private:
@@ -21,7 +20,8 @@ private:
 
   T& lcd;
   const style& st;
-  uint8_t pX, pY, width;
+  uint8_t pX, pY, width, transitionBlock, transitionBlockFill, filledBlocks;
+  bool haveTransitionBlock;
   uint8_t count = 0;
 };
 
@@ -49,8 +49,7 @@ private:
  */
 
 template <class T>
-void LilProg<T>::init() {
-  count = 0;
+LilProg<T>::LilProg(T& l, const style& s) : lcd(l), st(s) {
   initCharacters();
 }
 
@@ -82,13 +81,34 @@ void LilProg<T>::buildCharacter(const mask *n, const mask *p, uint8_t fill, uint
 }
 
 template <class T>
-void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w) {
+void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
+  if (pc > 100) {
+    pc = 100;
+  }
   if (w > 42) {
     w = 42;
   }
   width = w;
   pX = x;
   pY = y;
+
+  uint8_t wPx = (w * 5) + (w - 1); // total width in px, including gaps
+  wPx -= st.offsetL + st.offsetR; // reduce by edge offsets
+  uint8_t wFilled = (uint8_t)(((uint32_t)wPx * 10UL * (uint32_t)pc) / 1000UL); // scale by percentage
+  uint8_t pFilled = wFilled + st.offsetL;
+
+  transitionBlock = pFilled / 6;
+  transitionBlockFill = pFilled % 6;
+
+  if (transitionBlockFill < 5) {
+    haveTransitionBlock = true;
+    if (transitionBlock > 0) {
+      filledBlocks = transitionBlock - 1;
+    }
+  } else {
+    haveTransitionBlock = false;
+    filledBlocks = transitionBlock;
+  }
 }
 
 /*
@@ -110,33 +130,8 @@ void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w) {
  */
 template <class T>
 void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
-  setGeometry(x, y, w);
-
-  if (pc > 100) {
-    pc = 100;
-  }
-
-  uint8_t wPx = (w * 5) + (w - 1); // total width in px, including gaps
-  wPx -= st.offsetL + st.offsetR; // reduce by edge offsets
-
-  uint8_t wFilled = (uint8_t)(((uint32_t)wPx * 10UL * (uint32_t)pc) / 1000UL); // scale by percentage
-
-  uint8_t pFilled = wFilled + st.offsetL;
-  uint8_t transitionBlock = pFilled / 6;
-  uint8_t transitionBlockFill = pFilled % 6;
-
-  uint8_t filledBlocks;
-  bool haveTransitionBlock;
-
-  if (transitionBlockFill < 5) {
-    haveTransitionBlock = true;
-    if (transitionBlock > 0) {
-      filledBlocks = transitionBlock - 1;
-    }
-  } else {
-    haveTransitionBlock = false;
-    filledBlocks = transitionBlock;
-  }
+  setGeometry(x, y, w, pc);
+  draw();
 
 #if 0
   /* make left block */
@@ -165,9 +160,15 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
 }
 
 template <class T>
-void LilProg<T>::draw(uint8_t pc) {
+void LilProg<T>::draw() {
+  if (haveTransitionBlock) {
+    // make the transition character
+    count = (count + 1) % 4;
+    Serial.print("count updated to: ");
+    Serial.println(count);
+  }
 
-  lcd.setCursor(x, y);
+  lcd.setCursor(pX, pY);
   //lcd.write(AddrBlockLeft);
 
   Serial.print("trb: ");
@@ -184,7 +185,7 @@ void LilProg<T>::draw(uint8_t pc) {
     else if (block == 0) {
       lcd.print('L');
     }
-    else if (block == w - 1) {
+    else if (block == width - 1) {
       lcd.print('R');
     }
     else if (block <= filledBlocks) {
