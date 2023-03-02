@@ -25,7 +25,8 @@ typedef union {
 template <class T>
 class LilProgTextMode {
 public:
-  LilProgTextMode(T& lcd, char l, char r, char t, char e, char f) : lcd(lcd), g({l, r, t, e, f}) {};
+  LilProgTextMode(T& lcd) : lcd(lcd), g{'[', ']', ' ', ' ', '#'} {};
+  LilProgTextMode(T& lcd, char l, char r, char t, char e, char f) : lcd(lcd), g{l, r, t, e, f} {};
   void setGeometry(uint8_t, uint8_t, uint8_t, uint8_t);
   void draw();
   void draw(uint8_t, uint8_t, uint8_t, uint8_t);
@@ -108,14 +109,14 @@ void LilProgTextMode<T>::draw() {
 #ifdef LILPROG_DEBUG
     Serial.println(block);
 #endif
-    if (haveTransitionBlock && block == transitionBlock) {
-      lcd.print(g[TRANSITION]);
-    }
-    else if (block == 0) {
+    if (block == 0) {
       lcd.print(g[LEFT]);
     }
     else if (block == width - 1) {
       lcd.print(g[RIGHT]);
+    }
+    else if (haveTransitionBlock && block == transitionBlock) {
+      lcd.print(g[TRANSITION]);
     }
     else if (block <= filledBlocks) {
       lcd.print(g[FULL]);
