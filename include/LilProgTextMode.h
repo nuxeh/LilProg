@@ -3,17 +3,36 @@
 
 #include <Arduino.h>
 
+#define LEFT       0
+#define RIGHT      1
+#define TRANSITION 2
+#define EMPTY      3
+#define FULL       4
+
+typedef struct {
+  char l;
+  char r;
+  char t;
+  char e;
+  char f;
+} glyphs;
+
+typedef union {
+  char l[5];
+  glyphs g;
+} glyphArray;
+
 template <class T>
 class LilProgTextMode {
 public:
-  LilProgTextMode(T& lcd, char l, char r, char t, char e, char f) : lcd(lcd), glyphs({l, r, t, e, f}) {};
+  LilProgTextMode(T& lcd, char l, char r, char t, char e, char f) : lcd(lcd), g({l, r, t, e, f}) {};
   void setGeometry(uint8_t, uint8_t, uint8_t, uint8_t);
   void draw();
   void draw(uint8_t, uint8_t, uint8_t, uint8_t);
 
 private:
   T& lcd;
-  char glyphs[5];
+  char g[5];
   uint8_t pX, pY, width, transitionBlock, transitionBlockFill, filledBlocks;
   bool haveTransitionBlock;
 };
@@ -90,19 +109,19 @@ void LilProgTextMode<T>::draw() {
     Serial.println(block);
 #endif
     if (haveTransitionBlock && block == transitionBlock) {
-      lcd.print('T');
+      lcd.print(g[TRANSITION]);
     }
     else if (block == 0) {
-      lcd.print('L');
+      lcd.print(g[LEFT]);
     }
     else if (block == width - 1) {
-      lcd.print('R');
+      lcd.print(g[RIGHT]);
     }
     else if (block <= filledBlocks) {
-      lcd.print('F');
+      lcd.print(g[FULL]);
     }
     else {
-      lcd.print('E');
+      lcd.print(g[EMPTY]);
     }
   } while (block++ < width - 1);
 }
