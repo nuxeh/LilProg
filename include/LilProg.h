@@ -16,6 +16,7 @@ public:
 
 private:
   void initCharacters();
+  void buildTransitionChar(uint8_t, uint8_t);
   void buildCharacter(const mask *, uint8_t, uint8_t);
   void printChar(uint8_t, uint8_t);
 
@@ -26,10 +27,10 @@ private:
   uint8_t count = 0;
 };
 
-#define AddrBlockLeft       0x05
-#define AddrBlockRight      0x06
-#define AddrBlockMidEmpty   0x07
-#define AddrBlockMidFull    0x08
+#define AddrBlockLeft       0x04
+#define AddrBlockRight      0x05
+#define AddrBlockMidEmpty   0x06
+#define AddrBlockMidFull    0x07
 
 /*
   0b00000000,
@@ -63,8 +64,8 @@ void LilProg<T>::initCharacters() {
 
 template <class T>
 void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
-  uint8_t b;
   uint8_t c[8] = {0};
+  uint8_t b;
 
   for (uint8_t col=0; col<5; col++) {
     if (fill > col) {
@@ -84,10 +85,25 @@ void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
 }
 
 template <class T>
+void LilProg<T>::buildTransitionChar(uint8_t block, uint8_t fill) {
+    if (block == 0) {
+      //lcd.print('L');
+      lcd.write(AddrBlockLeft);
+    }
+    else if (block == width - 1) {
+      //lcd.print('R');
+      lcd.write(AddrBlockRight);
+    }
+
+    //buildCharacter(st.maskMid
+}
+
+template <class T>
 void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   if (pc > 100) {
     pc = 100;
   }
+  // limit width due to use of uint8_t for width calculations
   if (w > 42) {
     w = 42;
   }
