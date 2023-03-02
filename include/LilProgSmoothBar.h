@@ -141,9 +141,6 @@ void LilProgSmoothBar<T>::draw() {
     buildCharacter(transitionBlockFill, count);
   }
 
-  // set entry point
-  lcd.setCursor(pX, pY);
-
 #ifdef LILPROG_DEBUG
   Serial.print("trb: ");
   Serial.println(transitionBlock);
@@ -155,6 +152,9 @@ void LilProgSmoothBar<T>::draw() {
   Serial.println();
   uint8_t block = 0;
   do {
+    // set entry point
+    lcd.setCursor(pX + block, pY);
+
 #ifdef LILPROG_DEBUG
     //Serial.print(block);
 #endif
