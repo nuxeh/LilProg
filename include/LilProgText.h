@@ -6,56 +6,21 @@
 #include <Arduino.h>
 
 template <class T>
-class LilProg {
+class LilProgTextMode {
 public:
-  LilProg(T& l, const style& s) : lcd(l), st(s) {};
-  void begin();
+  LilProgTextMode(T& l, const style& s) : lcd(l), st(s) {};
   void setGeometry(uint8_t, uint8_t, uint8_t, uint8_t);
   void draw();
   void draw(uint8_t, uint8_t, uint8_t, uint8_t);
 
 private:
-  void initCharacters();
-  void buildBlockChar(uint8_t, uint8_t, uint8_t);
-  void buildCharacter(const mask *, uint8_t, uint8_t);
-  void printChar(uint8_t, uint8_t);
-
   T& lcd;
-  const style& st;
   uint8_t pX, pY, width, transitionBlock, transitionBlockFill, filledBlocks;
   bool haveTransitionBlock;
-  uint8_t count = 0;
 };
 
-#define AddrBlockLeft       0x04
-#define AddrBlockRight      0x05
-#define AddrBlockMidEmpty   0x06
-#define AddrBlockMidFull    0x07
-
-/*
-  0b00000000,
-  0b00000000,
-  0b00011000,
-  0b00111100,
-  0b00111100
-
-  0b00000,
-  0b00000,
-  0b00011,
-  0b00111,
-  0b00111,
-  0b00011,
-  0b00000,
-  0b00000
- */
-
 template <class T>
-void LilProg<T>::begin() {
-  initCharacters();
-}
-
-template <class T>
-void LilProg<T>::initCharacters() {
+void LilProgTextMode<T>::initCharacters() {
   buildCharacter(&st.maskLeft,  5, AddrBlockLeft);
   buildCharacter(&st.maskRight, 0, AddrBlockRight);
   buildCharacter(&st.maskMid,   0, AddrBlockMidEmpty);
@@ -63,7 +28,7 @@ void LilProg<T>::initCharacters() {
 }
 
 template <class T>
-void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
+void LilProgTextMode<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
   uint8_t c[8] = {0};
   uint8_t b;
 
@@ -85,7 +50,7 @@ void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
 }
 
 template <class T>
-void LilProg<T>::buildBlockChar(uint8_t block, uint8_t fill, uint8_t addr) {
+void LilProgTextMode<T>::buildBlockChar(uint8_t block, uint8_t fill, uint8_t addr) {
     if (block == 0) {
       buildCharacter(&st.maskLeft, fill, addr);
     }
@@ -98,7 +63,7 @@ void LilProg<T>::buildBlockChar(uint8_t block, uint8_t fill, uint8_t addr) {
 }
 
 template <class T>
-void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
+void LilProgTextMode<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   if (pc > 100) {
     pc = 100;
   }
@@ -145,14 +110,14 @@ void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
  *   <----wFilled----><------wEmpty------>
  */
 template <class T>
-void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
+void LilProgTextMode<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   setGeometry(x, y, w, pc);
   draw();
 }
 
 // TODO: optimise redraws
 template <class T>
-void LilProg<T>::draw() {
+void LilProgTextMode<T>::draw() {
   if (haveTransitionBlock) {
     buildBlockChar(transitionBlock, transitionBlockFill, count);
   }
