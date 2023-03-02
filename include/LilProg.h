@@ -70,7 +70,7 @@ void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
       b = 0x00;
     }
     b &= m->neg[i-1];
-    //b |= *p[i];
+    b |= m->pos[i-1];
     for (uint8_t j=0; j<8; j++) {
       c[j] |= ((b & 1) << (5 - i)); // transpose
       b >>= 1;
@@ -98,14 +98,13 @@ void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
 
   transitionBlock = pFilled / 6;
   transitionBlockFill = pFilled % 6;
+  haveTransitionBlock = (transitionBlockFill < 5);
 
-  if (transitionBlockFill < 5) {
-    haveTransitionBlock = true;
+  if (haveTransitionBlock) {
     if (transitionBlock > 0) {
       filledBlocks = transitionBlock - 1;
     }
   } else {
-    haveTransitionBlock = false;
     filledBlocks = transitionBlock;
   }
 }
