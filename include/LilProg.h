@@ -72,7 +72,7 @@ void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
     } else {
       b = 0x00;
     }
-    b &= m->neg[i-1];
+    //b &= m->neg[i-1];
     //b |= m->pos[i-1];
     for (uint8_t j=0; j<8; j++) {
       c[j] |= ((b & 1) << (5 - i)); // transpose
@@ -189,20 +189,20 @@ void LilProg<T>::draw() {
       lcd.print('T');
     }
     else if (block == 0) {
-      lcd.print('L');
-      //lcd.write(AddrBlockLeft);
+      //lcd.print('L');
+      lcd.write(AddrBlockLeft);
     }
     else if (block == width - 1) {
-      lcd.print('R');
-      //lcd.write(AddrBlockRight);
+      //lcd.print('R');
+      lcd.write(AddrBlockRight);
     }
     else if (block <= filledBlocks) {
-      lcd.print('F');
-      //lcd.write(AddrBlockMidFull);
+      //lcd.print('F');
+      lcd.write(AddrBlockMidFull);
     }
     else {
-      lcd.print('E');
-      //lcd.write(AddrBlockMidEmpty);
+      //lcd.print('E');
+      lcd.write(AddrBlockMidEmpty);
     }
   } while (block++ < width - 1);
 }
