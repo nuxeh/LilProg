@@ -149,37 +149,32 @@ void LilProgSmoothBar<T>::draw() {
 #endif
 
   // write characters
-  Serial.println();
   uint8_t block = 0;
   do {
 #ifdef LILPROG_DEBUG
-    //Serial.print(block);
+    Serial.println(block);
 #endif
     if (haveTransitionBlock && block == transitionBlock) {
       lcd.write(count);
-      Serial.print("T");
     }
     else if (block == 0) {
       lcd.write(AddrBlockLeft);
-      Serial.print("L");
     }
     else if (block == width - 1) {
       lcd.write(AddrBlockRight);
-      Serial.print("R");
     }
     else if (block <= filledBlocks) {
       lcd.write(AddrBlockMidFull);
-      Serial.print("F");
     }
     else {
-      //lcd.write(AddrBlockMidEmpty);
-      lcd.print("E");
-      Serial.print("E");
+      lcd.write(AddrBlockMidEmpty);
     }
   } while (block++ < width - 1);
+#ifdef LILPROG_DEBUG
   Serial.println();
   Serial.print("filled: ");
   Serial.println(filledBlocks);
+#endif
 
   // update address counter
   if (haveTransitionBlock) {
