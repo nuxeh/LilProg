@@ -18,7 +18,6 @@ private:
   void initCharacters();
   void buildBlockChar(uint8_t, uint8_t, uint8_t);
   void buildCharacter(const mask *, uint8_t, uint8_t);
-  void printChar(uint8_t, uint8_t);
 
   T& lcd;
   const style& st;
@@ -150,6 +149,7 @@ void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   draw();
 }
 
+// TODO: optimise redraws
 template <class T>
 void LilProg<T>::draw() {
   if (haveTransitionBlock) {
@@ -180,8 +180,8 @@ void LilProg<T>::draw() {
       lcd.write(AddrBlockLeft);
     }
     else if (block == width - 1) {
-      //lcd.print('R');
-      lcd.write(AddrBlockRight);
+      lcd.print('R');
+      //lcd.write(AddrBlockRight);
     }
     else if (block <= filledBlocks) {
       //lcd.print('F');
