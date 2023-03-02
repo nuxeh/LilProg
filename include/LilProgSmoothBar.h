@@ -159,19 +159,15 @@ void LilProgSmoothBar<T>::draw() {
       lcd.write(count);
     }
     else if (block == 0) {
-      //lcd.print('L');
       lcd.write(AddrBlockLeft);
     }
     else if (block == width - 1) {
-      lcd.print('R');
-      //lcd.write(AddrBlockRight);
+      lcd.write(AddrBlockRight);
     }
     else if (block <= filledBlocks) {
-      //lcd.print('F');
       lcd.write(AddrBlockMidFull);
     }
     else {
-      //lcd.print('E');
       lcd.write(AddrBlockMidEmpty);
     }
   } while (block++ < width - 1);
