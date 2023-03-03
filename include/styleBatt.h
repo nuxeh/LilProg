@@ -3,7 +3,7 @@
 
 #include "style.h"
 
-const style PROG_DECORATOR batt = {
+const style PROG_DECORATOR styleBatt = {
   .maskLeft = {
     .neg = {
       0b00000000,

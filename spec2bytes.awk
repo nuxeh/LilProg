@@ -13,11 +13,12 @@ BEGIN {
   o[7] = "offsetRight"
   offsetLeft = 0
   offsetRight = 0
-  if (styleName == "") styleName = "style"
+  if (styleName == "") styleNameStruct = "style"
+  else styleNameStruct = "style" styleName
   print "#ifndef __STYLE_" toupper(styleName) "_H__\n"
   print "#define __STYLE_" toupper(styleName) "_H__\n\n"
   print "#include \"style.h\"\n\n"
-  print "const style PROG_DECORATOR", tolower(styleName), "= {\n"
+  print "const style PROG_DECORATOR", styleNameStruct, "= {\n"
 }
 
 NF>=5 {

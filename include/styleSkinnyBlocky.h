@@ -3,7 +3,7 @@
 
 #include "style.h"
 
-const style PROG_DECORATOR skinnyblocky = {
+const style PROG_DECORATOR styleSkinnyBlocky = {
   .maskLeft = {
     .neg = {
       0b00000000,

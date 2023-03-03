@@ -3,7 +3,7 @@
 
 #include "style.h"
 
-const style PROG_DECORATOR square = {
+const style PROG_DECORATOR styleSquare = {
   .maskLeft = {
     .neg = {
       0b00000000,

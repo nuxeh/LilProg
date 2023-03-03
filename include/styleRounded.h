@@ -3,7 +3,7 @@
 
 #include "style.h"
 
-const style PROG_DECORATOR rounded = {
+const style PROG_DECORATOR styleRounded = {
   .maskLeft = {
     .neg = {
       0b00000000,
