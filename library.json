@@ -18,5 +18,17 @@
   "license": "ISC",
   "dependencies": {},
   "frameworks": "*",
-  "platforms": "*"
+  "platforms": "*",
+  "export": {
+    "include":
+    [
+        "include/*.h",
+        "examples/*/*.ini",
+        "examples/*/src/*.ino",
+	"*.awk",
+	"COPYING",
+	"README.md",
+	"*.nix"
+    ]
+  }
 }
