@@ -1,6 +1,6 @@
 {
   "name": "LilProg",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A small implementation of continuous graphical progress bars for HD44780 LCD displays",
   "keywords": "",
   "repository":
