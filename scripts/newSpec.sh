@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
+#
+# Generate a blank spec file
+#
+# example:
+#     bash newSpec.sh MyNewStyle
+#
+# A new file, `spec/MyNewStyle.txt` will be generated.   
 
 NAME="../spec/$1.txt"
 
