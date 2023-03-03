@@ -8,8 +8,11 @@
 template <class T>
 class LilProg {
 public:
-  LilProg(T& l, const style& s) : lcd(l), st(s) {};
-  void begin();
+  LilProg(T& l, const style *s) : lcd(l), styles{s, NULL, NULL, NULL}, ns(1) {};
+  LilProg(T& l, const style *s, const style *s1) : lcd(l), styles{s, s1, NULL, NULL}, ns(2) {};
+  LilProg(T& l, const style *s, const style *s1, const style *s2) : lcd(l), styles{s, s1, s2, NULL}, ns(3) {};
+  LilProg(T& l, const style *s, const style *s1, const style *s2, const style *s3) : lcd(l), styles{s, s1, s2, s3}, ns(4) {};
+  void setStyle(uint8_t s);
   void setGeometry(uint8_t, uint8_t, uint8_t, uint8_t);
   void draw();
   void draw(uint8_t, uint8_t, uint8_t, uint8_t);
@@ -20,7 +23,9 @@ private:
   void buildCharacter(const mask *, uint8_t, uint8_t);
 
   T& lcd;
-  const style& st;
+  const style *styles[4]; /* pointers to up to 4 styles */
+  int8_t st = -1;         /* the current style in use */
+  uint8_t ns;             /* the number of styles available */
   uint8_t pX, pY, width, transitionBlock, transitionBlockFill, filledBlocks;
   bool haveTransitionBlock;
   uint8_t count = 0;
@@ -31,35 +36,34 @@ private:
 #define AddrBlockMidEmpty   0x06
 #define AddrBlockMidFull    0x07
 
-/*
-  0b00000000,
-  0b00000000,
-  0b00011000,
-  0b00111100,
-  0b00111100
-
-  0b00000,
-  0b00000,
-  0b00011,
-  0b00111,
-  0b00111,
-  0b00011,
-  0b00000,
-  0b00000
- */
-
-template <class T>
-void LilProg<T>::begin() {
-  initCharacters();
-}
-
 template <class T>
 void LilProg<T>::initCharacters() {
-  buildCharacter(&st.maskLeft,  5, AddrBlockLeft);
-  buildCharacter(&st.maskRight, 0, AddrBlockRight);
-  buildCharacter(&st.maskMid,   0, AddrBlockMidEmpty);
-  buildCharacter(&st.maskMid,   5, AddrBlockMidFull);
+  buildCharacter(&styles[st]->maskLeft,  5, AddrBlockLeft);
+  buildCharacter(&styles[st]->maskRight, 0, AddrBlockRight);
+  buildCharacter(&styles[st]->maskMid,   0, AddrBlockMidEmpty);
+  buildCharacter(&styles[st]->maskMid,   5, AddrBlockMidFull);
 }
+
+/*
+ * stored data:
+ *
+ * 0b00000000,
+ * 0b00000000,
+ * 0b00011000,
+ * 0b00111100,
+ * 0b00111100
+ *
+ * transpose to:
+ *
+ * 0b00000,
+ * 0b00000,
+ * 0b00011,
+ * 0b00111,
+ * 0b00111,
+ * 0b00011,
+ * 0b00000,
+ * 0b00000
+ */
 
 template <class T>
 void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
@@ -86,13 +90,13 @@ void LilProg<T>::buildCharacter(const mask *m, uint8_t fill, uint8_t addr) {
 template <class T>
 void LilProg<T>::buildBlockChar(uint8_t block, uint8_t fill, uint8_t addr) {
     if (block == 0) {
-      buildCharacter(&st.maskLeft, fill, addr);
+      buildCharacter(&styles[st]->maskLeft, fill, addr);
     }
     else if (block == width - 1) {
-      buildCharacter(&st.maskRight, fill, addr);
+      buildCharacter(&styles[st]->maskRight, fill, addr);
     }
     else {
-      buildCharacter(&st.maskMid, fill, addr);
+      buildCharacter(&styles[st]->maskMid, fill, addr);
     }
 }
 
@@ -109,9 +113,10 @@ void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   pX = x;
   pY = y;
 
-  uint8_t wPx = (w * 5) + (w - 1) - st.offsetLeft - st.offsetRight; // total width in px, including gaps
-  uint8_t wFilled = (uint8_t)(((uint32_t)wPx * 10UL * (uint32_t)pc) / 1000UL); // scale by percentage
-  uint8_t pFilled = wFilled + st.offsetLeft;
+  /* calculate total width in px, including gaps, scale by percentage value */
+  uint8_t wPx = (w*5) + (w-1) - styles[st]->offsetLeft - styles[st]->offsetRight;
+  uint8_t wFilled = (uint8_t)(((uint32_t)wPx * 10UL * (uint32_t)pc) / 1000UL);
+  uint8_t pFilled = wFilled + styles[st]->offsetLeft;
 
   transitionBlock = pFilled / 6;
   transitionBlockFill = pFilled % 6;
@@ -120,6 +125,17 @@ void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
   filledBlocks = transitionBlock;
   if (haveTransitionBlock && transitionBlock > 0) {
       filledBlocks = transitionBlock - 1;
+  }
+}
+
+template <class T>
+void LilProg<T>::setStyle(uint8_t s) {
+  if (s >= ns) {
+    return;
+  }
+  if (st != s) {
+    st = s;
+    initCharacters();
   }
 }
 
@@ -142,6 +158,9 @@ void LilProg<T>::setGeometry(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
  */
 template <class T>
 void LilProg<T>::draw(uint8_t x, uint8_t y, uint8_t w, uint8_t pc) {
+  if (st == -1) {
+    setStyle(0);
+  }
   setGeometry(x, y, w, pc);
   draw();
 }
