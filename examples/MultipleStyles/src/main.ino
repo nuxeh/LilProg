@@ -33,7 +33,7 @@ uint8_t pc = 0;
 void loop() {
   for (uint8_t i=0; i<=100; i++) {
     prog.setStyle(0);
-    prog.draw(0, 0, 16, pc);
+    prog.draw(0, 0, 16, i);
     delay(100);
   }
 
@@ -41,7 +41,7 @@ void loop() {
 
   for (uint8_t i=0; i<=100; i++) {
     prog.setStyle(1);
-    prog.draw(0, 0, 16, pc);
+    prog.draw(0, 0, 16, i);
     delay(100);
   }
 
