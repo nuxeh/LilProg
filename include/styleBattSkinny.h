@@ -17,7 +17,7 @@ const style PROG_DECORATOR styleBattSkinny = {
       0b00000000,
       0b00000000,
       0b00000000,
-      0b00111100
+      0b01111110
     },
   },
   .maskRight = {
@@ -29,7 +29,7 @@ const style PROG_DECORATOR styleBattSkinny = {
       0b00000000
     },
     .pos = {
-      0b00111100,
+      0b01111110,
       0b00011000,
       0b00011000,
       0b00000000,
