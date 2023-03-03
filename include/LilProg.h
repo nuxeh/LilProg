@@ -25,7 +25,7 @@ private:
   T& lcd;
   const style *styles[4]; /* pointers to up to 4 styles */
   int8_t st = -1;         /* the current style in use */
-  uint8_t ns;             /* the number of styles available */
+  const uint8_t ns;       /* the number of styles available */
   uint8_t pX, pY, width, transitionBlock, transitionBlockFill, filledBlocks;
   bool haveTransitionBlock;
   uint8_t count = 0;
