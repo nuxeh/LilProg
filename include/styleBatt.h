@@ -10,7 +10,7 @@ const style PROG_DECORATOR styleBatt = {
       0b00000000,
       0b00000000,
       0b00000000,
-      0b11111111
+      0b00000000
     },
     .pos = {
       0b00000000,
@@ -22,9 +22,9 @@ const style PROG_DECORATOR styleBatt = {
   },
   .maskRight = {
     .neg = {
-      0b11111111,
-      0b00111100,
-      0b00111100,
+      0b00000000,
+      0b00000000,
+      0b00000000,
       0b00000000,
       0b00000000
     },
@@ -52,8 +52,8 @@ const style PROG_DECORATOR styleBatt = {
       0b10000001
     },
   },
-  .offsetLeft = 4,
-  .offsetRight = 2
+  .offsetLeft = 5,
+  .offsetRight = 5
 };
 
 #endif
