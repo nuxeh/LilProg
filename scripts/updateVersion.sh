@@ -5,5 +5,4 @@ TO=$2
 
 sed -i "s/${FROM}/${TO}/" ../library.json
 git add ../library.json
-git commit -m "Bump v${FROM} → v${TO}"
-git tag "v${TO}"
+git commit -m "Bump v${FROM} → v${TO}" && git tag "v${TO}"
