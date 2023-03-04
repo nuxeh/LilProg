@@ -7,7 +7,7 @@ fn main() {
     println!("cargo:rerun-if-changed=wrapper.h");
 
     let bindings = bindgen::Builder::default()
-        .header("../../include/LilProgAllStyles.h")
+        .header("../../include/style.h")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate()
         .expect("Unable to generate bindings");

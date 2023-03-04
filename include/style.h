@@ -1,7 +1,7 @@
 #ifndef __STYLE_H__
 #define __STYLE_H__
 
-#include <Arduino.h>
+#include <stdint.h>
 
 #ifdef PROGRESS_DATA_IN_PROGMEM
 #define PROG_DECORATOR PROGMEM
