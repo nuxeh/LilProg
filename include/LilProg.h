@@ -16,7 +16,7 @@ public:
   void setGeometry(uint8_t, uint8_t, uint8_t, uint8_t);
   void draw();
   void draw(uint8_t, uint8_t, uint8_t, uint8_t);
-
+  void reserve(uint8_t); /* reserve slots 0 to (n-1) in lcd character RAM */
 private:
   void initCharacters();
   void buildBlockChar(uint8_t, uint8_t, uint8_t);
@@ -29,7 +29,15 @@ private:
   uint8_t pX, pY, width, transitionBlock, transitionBlockFill, filledBlocks;
   bool haveTransitionBlock;
   uint8_t count = 0;
+  uint8_t reserved = 0;
 };
+
+template <class T>
+void LilProg<T>::reserve(uint8_t n) {
+  if (n < 4) {
+    reserved = n;
+  }
+}
 
 #define AddrBlockLeft       0x04
 #define AddrBlockRight      0x05
@@ -217,7 +225,7 @@ void LilProg<T>::draw() {
 
   // update address counter
   if (haveTransitionBlock) {
-    count = (count + 1) % 4;
+    count = ((count + 1) % (4 - reserved)) + reserved;
 #ifdef LILPROG_DEBUG
     Serial.print("count updated to: ");
     Serial.println(count);
